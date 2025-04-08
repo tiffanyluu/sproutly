@@ -1,13 +1,13 @@
-import "./display-dom.js";
+import { displayProjectOnSidebar } from "./display-dom.js";
+import { projects, createProject, createTask, deleteProject, deleteTask, getAllTasks, getTodayTasks, getFutureTasks, getStarredTasks } from './logic.js';
 
 const projectForm = document.querySelector('.project-form');
 projectForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const fd = new FormData(projectForm);
     const obj = Object.fromEntries(fd);
-    //createProject(obj.title);
+    createProject(obj.title);
     displayProjectOnSidebar(obj.title);
-    projectTitle = obj.title;
     projectForm.reset();
     document.querySelector('.project-form').style.display = 'none';
 })
@@ -30,3 +30,4 @@ addProjectForm.addEventListener('submit', (e) => {
     e.preventDefault();
     document.querySelector('.project-form').style.display='none';
 })
+

@@ -2,6 +2,7 @@
     --light-green: #DAF1DC;
     --side-bar: #A9CFA0;
     --forest-green: #2c952c;
+    --red: #a90505;
 }
 
 * {
@@ -9,7 +10,6 @@
     padding: 0;
     background-color: var(--light-green);
     font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
 }
 
 .header {
@@ -95,6 +95,27 @@ ul {
     background-color: var(--side-bar);
 }
 
+.projects-list {
+    /* border: 2px solid black; */
+    background-color: var(--side-bar);
+}
+
+.project-item {
+    /* border: 2px solid black; */
+    width: 97%;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--side-bar)
+}
+
+.delete-sidebar {
+    font-size: 15px;
+    background-color: var(--red);
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
 button {
     font-size: 25px;
     background-color: var(--side-bar);
@@ -157,6 +178,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
 
 .task-list {
@@ -177,6 +199,14 @@ button {
 
 .list-container button {
     background-color: var(--light-green);
+}
+
+button.delete-task {
+    font-size: 15px;
+    background-color: var(--red);
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 10px;
 }
 
 .add-project {
@@ -238,6 +268,13 @@ input[type="text"] {
     font-size: 15px;
 }
 
+input[type="date"] {
+    width: 500px;
+    height: 50px;
+    margin: 0;
+    font-size: 15px;
+}
+
 .form-component {
     display: flex;
     flex-direction: column;
@@ -267,5 +304,5 @@ input[type="text"] {
 }
 
 .cancel-task-form {
-    background-color: #a90505;
+    background-color: var(--red);
 }

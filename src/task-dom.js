@@ -1,13 +1,14 @@
-import "./display-dom.js";
+import { displayTaskOnMain } from "./display-dom.js";
+import { projects, createProject, createTask, deleteProject, deleteTask, getAllTasks, getTodayTasks, getFutureTasks, getStarredTasks } from './logic.js';
 
 const taskForm = document.querySelector('.task-form');
 taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const fd = new FormData(taskForm);
     const obj = Object.fromEntries(fd);
-    //createTask(obj.title);
-    displayTaskOnMain(obj.title);
-    taskTitle = obj.title;
+    let projectTitle = document.querySelector('.project-heading').textContent;
+    let taskId = createTask(projectTitle, obj.taskTitle, obj.date);
+    displayTaskOnMain(obj.taskTitle, obj.date, taskId);
     taskForm.reset();
     document.querySelector('.task-form').style.display = 'none';
 })

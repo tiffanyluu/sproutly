@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌱 Sproutly 🌱</title>
+    <script href="index.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="header">🌱 Sproutly 🌱</div>
@@ -11,10 +13,10 @@
       <div class="sidebar-container">
         <div class="home-container">
           <ul class="buttons">
-            <button>All Tasks</button>
-            <button>Today</button>
-            <button>Future</button>
-            <button>Starred</button>
+            <button type="button" class="all-tasks-button">All Tasks</button>
+            <button type="button" class="today-button">Today</button>
+            <button type="button" class="future-button">Future</button>
+            <button type="button" class="starred-button">Starred</button>
           </ul>
         </div>
         <div class="projects-container">
@@ -23,7 +25,7 @@
             <hr />
           </div>
           <ul class="projects-list"></ul>
-          <button class="add-project">+ Add Project</button>
+          <button type="button" class="add-project">+ Add Project</button>
           <form class="project-form">
             <div>
               <input
@@ -48,11 +50,11 @@
         <form class="task-form">
           <div class="form-component">
             <label class="form-label">Title:</label>
-            <input type="text" name="title" />
+            <input type="text" name="taskTitle" />
           </div>
           <div class="form-component">
             <label class="form-label">Date:</label>
-            <input type="text" name="date" />
+            <input type="date" name="date" />
           </div>
           <div class="form-buttons">
             <button type="submit" class="add-task-form">Add</button>
