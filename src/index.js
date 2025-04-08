@@ -3,5 +3,6 @@ import { projects, createProject, createTask, deleteProject, deleteTask, getAllT
 import "./project-dom.js";
 import "./task-dom.js";
 import { displayProjectOnMain, displayProjectOnSidebar, displayTaskOnMain } from "./display-dom.js";
+import './home-dom.js';
 
 window.projects = projects;

@@ -42,7 +42,6 @@ function getTodayTasks() {
     const day = String(today.getDate()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day}`;
 
-
     let todayTasks = Object.values(projects).flat().filter(task => task.date === currentDate);
     return todayTasks;
 }
@@ -54,7 +53,7 @@ function getFutureTasks() {
     const day = String(today.getDate()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day}`;
 
-    let futureTasks = Object.values(projects).flat().filter(task => task.date !== currentDate);
+    let futureTasks = Object.values(projects).flat().filter(task => task.date && task.date !== currentDate);
     return futureTasks;
 }
 

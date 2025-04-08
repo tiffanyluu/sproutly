@@ -21,6 +21,7 @@
     text-align: center;
     font-size: 48px;
     font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .container {
@@ -29,11 +30,11 @@
 
 .sidebar-container {
     height: 100vh;
-    min-width: 30%;
     /* border-right: 5px solid black; */
     background-color: var(--side-bar);
     padding: 40px 30px;
-
+    width: 100%;
+    max-width: 300px;
 }
 
 .projects-container {
@@ -42,10 +43,12 @@
 }
   
 .project-form {
-    margin-top: 15px;
-    padding: 15px;
+    margin-top: 25px;
+    padding: 20px;
+    padding-top: 30px;
     background-color: var(--light-green);
     display: none;
+    max-width: 290px;
 }
 
 .project-input {
@@ -84,6 +87,7 @@ hr {
     border: none;
     border-top: 3px solid black;
     margin-left: 0;
+    max-width: 330px;
 }
 
 ul {
@@ -135,7 +139,7 @@ button {
     background-color: var(--light-green);
     font-weight: bold;
     font-size: 20px;
-    margin-left: 55px;
+    margin-left: 60px;
 }
 
 .task-container {
@@ -259,6 +263,7 @@ input[type="checkbox"] {
     background-color: var(--side-bar);
     margin-top: 30px;
     display: none;
+    margin-left: 60px;
 }
 
 input[type="text"] {

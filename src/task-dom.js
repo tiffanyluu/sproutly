@@ -22,7 +22,7 @@ const cancelTaskForm = document.querySelector('.cancel-task-form');
 cancelTaskForm.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    cancelTaskForm.reset();
+    taskForm.reset();
     document.querySelector('.task-form').style.display='none';
 });
 
