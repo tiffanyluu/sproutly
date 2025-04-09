@@ -2,7 +2,7 @@
 
 **"Where every task is a sprout of progress."**
 
-Sproutly is a calming, plant-themed to-do app built with **HTML**, **CSS**, and **JavaScript**, designed to make organizing your tasks feel gentle, satisfying, and a little bit green.
+Sproutly is a calming, plant-themed to-do app, designed to make organizing your tasks feel gentle, satisfying, and a little bit green.
 
 ---
 

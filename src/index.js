@@ -1,8 +1,8 @@
 import "./styles.css";
-import { projects, createProject, createTask, deleteProject, deleteTask, getAllTasks, getTodayTasks, getFutureTasks, getStarredTasks } from "./logic.js";
 import "./project-dom.js";
 import "./task-dom.js";
-import { displayProjectOnMain, displayProjectOnSidebar, displayTaskOnMain } from "./display-dom.js";
+import { displayProjectOnMain, displayProjectOnSidebar, displayTaskOnMain, initialDisplay } from "./display-dom.js";
 import './home-dom.js';
+import { projects, createProject, createTask, deleteProject, deleteTask, getAllTasks, getTodayTasks, getFutureTasks, getStarredTasks } from "./logic.js";
 
-window.projects = projects;
+initialDisplay();
