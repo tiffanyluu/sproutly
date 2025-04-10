@@ -8,6 +8,7 @@ Sproutly is a calming, plant-themed to-do app, designed to make organizing your 
   <img src="./src/sproutlyIMG.png"/>
 </p>
 
+Live Demo: [Sproutly](https://tiffanyluu.github.io/sproutly/)
 ---
 
 Features
