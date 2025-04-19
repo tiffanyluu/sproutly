@@ -1,5 +1,6 @@
 import {
   projects,
+  loadProjects,
   getAllTasks,
   getTodayTasks,
   getFutureTasks,
@@ -10,23 +11,25 @@ import {
   displayTodayTasks,
   displayFutureTasks,
   displayStarredTasks,
+  initialDisplay,
+  displayAllProjectsSidebar,
 } from "./display-dom.js";
 
-const allTasksButton = document.querySelector(".all-tasks-button");
+loadProjects();
 
+const allTasksButton = document.querySelector(".all-tasks-button");
 const todayButton = document.querySelector(".today-button");
 const futureButton = document.querySelector(".future-button");
 const starredButton = document.querySelector(".starred-button");
 
-allTasksButton.addEventListener("click", () => {
-  if (Object.keys(projects).length === 0) return;
+function handleView(displayFn, taskFetcher) {
   const taskContainer = document.querySelector(".task-container");
   const projectHeading = taskContainer.querySelector(".project-heading");
   const listContainer = taskContainer.querySelector(".list-container");
   const addTaskButton = document.querySelector(".add-task-button");
 
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
+  if (addTaskButton) addTaskButton.style.display = "none";
+  if (projectHeading) projectHeading.style.display = "none";
 
   if (listContainer) listContainer.remove();
 
@@ -38,74 +41,33 @@ allTasksButton.addEventListener("click", () => {
   taskContainer.appendChild(newListContainer);
   taskContainer.setAttribute("data-current-project", "");
 
-  displayAllTasks(getAllTasks());
+  const tasks = taskFetcher();
+  displayFn(tasks);
+
+  document.querySelector(".content-container").style.display = "block";
+}
+
+allTasksButton.addEventListener("click", () => {
+  handleView(displayAllTasks, getAllTasks);
 });
 
 todayButton.addEventListener("click", () => {
-  if (Object.keys(projects).length === 0) return;
-  const taskContainer = document.querySelector(".task-container");
-  const projectHeading = taskContainer.querySelector(".project-heading");
-  const listContainer = taskContainer.querySelector(".list-container");
-  const addTaskButton = document.querySelector(".add-task-button");
-
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
-
-  if (listContainer) listContainer.remove();
-
-  const newListContainer = document.createElement("div");
-  newListContainer.className = "list-container";
-  const taskList = document.createElement("ul");
-  taskList.className = "task-list";
-  newListContainer.appendChild(taskList);
-  taskContainer.appendChild(newListContainer);
-  taskContainer.setAttribute("data-current-project", "");
-
-  displayTodayTasks(getTodayTasks());
+  handleView(displayTodayTasks, getTodayTasks);
 });
 
 futureButton.addEventListener("click", () => {
-  if (Object.keys(projects).length === 0) return;
-  const taskContainer = document.querySelector(".task-container");
-  const projectHeading = taskContainer.querySelector(".project-heading");
-  const listContainer = taskContainer.querySelector(".list-container");
-  const addTaskButton = document.querySelector(".add-task-button");
-
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
-
-  if (listContainer) listContainer.remove();
-
-  const newListContainer = document.createElement("div");
-  newListContainer.className = "list-container";
-  const taskList = document.createElement("ul");
-  taskList.className = "task-list";
-  newListContainer.appendChild(taskList);
-  taskContainer.appendChild(newListContainer);
-  taskContainer.setAttribute("data-current-project", "");
-
-  displayFutureTasks(getFutureTasks());
+  handleView(displayFutureTasks, getFutureTasks);
 });
 
 starredButton.addEventListener("click", () => {
-  if (Object.keys(projects).length === 0) return;
-  const taskContainer = document.querySelector(".task-container");
-  const projectHeading = taskContainer.querySelector(".project-heading");
-  const listContainer = taskContainer.querySelector(".list-container");
-  const addTaskButton = document.querySelector(".add-task-button");
+  handleView(displayStarredTasks, getStarredTasks);
+});
 
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
+window.addEventListener("DOMContentLoaded", () => {
+  loadProjects();
+  displayAllProjectsSidebar(projects);
 
-  if (listContainer) listContainer.remove();
-
-  const newListContainer = document.createElement("div");
-  newListContainer.className = "list-container";
-  const taskList = document.createElement("ul");
-  taskList.className = "task-list";
-  newListContainer.appendChild(taskList);
-  taskContainer.appendChild(newListContainer);
-  taskContainer.setAttribute("data-current-project", "");
-
-  displayStarredTasks(getStarredTasks());
+  if (allTasksButton) {
+    allTasksButton.click();
+  }
 });

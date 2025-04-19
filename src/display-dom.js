@@ -6,19 +6,6 @@ import {
   storageAvailable,
 } from "./logic.js";
 
-function initialDisplay() {
-  if (!storageAvailable("localStorage")) {
-    return;
-  }
-
-  const storedProjects = localStorage.getItem("projects");
-  const parsedProjects = storedProjects ? JSON.parse(storedProjects) : {};
-  Object.assign(projects, parsedProjects);
-  displayAllProjectsSidebar(projects);
-  document.querySelector(".task-form").style.display = "none";
-  //displayAllTasks(Object.values(projects).flat());
-}
-
 function displayProjectOnSidebar(title) {
   const projectsList = document.querySelector(".projects-list");
   const projectItem = document.createElement("div");
@@ -244,26 +231,75 @@ function displayAllTasks(tasks) {
   if (taskList) {
     taskList.innerHTML = "";
   }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
 }
 
 function displayTodayTasks(tasks) {
+  const taskList = document.querySelector(".task-list");
+
+  if (taskList) {
+    taskList.innerHTML = "";
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
 }
+
 function displayFutureTasks(tasks) {
+  const taskList = document.querySelector(".task-list");
+
+  if (taskList) {
+    taskList.innerHTML = "";
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
 }
 
 function displayStarredTasks(tasks) {
+  const taskList = document.querySelector(".task-list");
+
+  if (taskList) {
+    taskList.innerHTML = "";
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
+}
+
+function initialDisplay() {
+  if (!storageAvailable("localStorage")) {
+    return;
+  }
+
+  displayAllProjectsSidebar(projects);
+
+  const taskForm = document.querySelector(".task-form");
+  if (taskForm) {
+    taskForm.style.display = "none";
+  }
 }
 
 export {
@@ -274,5 +310,6 @@ export {
   displayTodayTasks,
   displayFutureTasks,
   displayStarredTasks,
+  displayAllProjectsSidebar,
   initialDisplay,
 };

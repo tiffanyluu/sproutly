@@ -6,7 +6,6 @@ projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const fd = new FormData(projectForm);
   const obj = Object.fromEntries(fd);
-  console.log(obj);
   if (!obj.title) {
     alert("Project name cannot be blank!");
     return;
