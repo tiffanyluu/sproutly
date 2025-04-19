@@ -786,6 +786,7 @@ module.exports = styleTagTransform;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   displayAllProjectsSidebar: () => (/* binding */ displayAllProjectsSidebar),
 /* harmony export */   displayAllTasks: () => (/* binding */ displayAllTasks),
 /* harmony export */   displayFutureTasks: () => (/* binding */ displayFutureTasks),
 /* harmony export */   displayProjectOnMain: () => (/* binding */ displayProjectOnMain),
@@ -797,19 +798,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _logic_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./logic.js */ "./src/logic.js");
 
-
-function initialDisplay() {
-  if (!(0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.storageAvailable)("localStorage")) {
-    return;
-  }
-
-  const storedProjects = localStorage.getItem("projects");
-  const parsedProjects = storedProjects ? JSON.parse(storedProjects) : {};
-  Object.assign(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects, parsedProjects);
-  displayAllProjectsSidebar(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects);
-  document.querySelector(".task-form").style.display = "none";
-  //displayAllTasks(Object.values(projects).flat());
-}
 
 function displayProjectOnSidebar(title) {
   const projectsList = document.querySelector(".projects-list");
@@ -1036,26 +1024,75 @@ function displayAllTasks(tasks) {
   if (taskList) {
     taskList.innerHTML = "";
   }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
 }
 
 function displayTodayTasks(tasks) {
+  const taskList = document.querySelector(".task-list");
+
+  if (taskList) {
+    taskList.innerHTML = "";
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
 }
+
 function displayFutureTasks(tasks) {
+  const taskList = document.querySelector(".task-list");
+
+  if (taskList) {
+    taskList.innerHTML = "";
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
 }
 
 function displayStarredTasks(tasks) {
+  const taskList = document.querySelector(".task-list");
+
+  if (taskList) {
+    taskList.innerHTML = "";
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return;
+  }
+
   tasks.forEach((task) => {
     displayTaskOnMain(task.taskTitle, task.date, task.taskId);
   });
+}
+
+function initialDisplay() {
+  if (!(0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.storageAvailable)("localStorage")) {
+    return;
+  }
+
+  displayAllProjectsSidebar(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects);
+
+  const taskForm = document.querySelector(".task-form");
+  if (taskForm) {
+    taskForm.style.display = "none";
+  }
 }
 
 
@@ -1075,21 +1112,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const allTasksButton = document.querySelector(".all-tasks-button");
+(0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.loadProjects)();
 
+const allTasksButton = document.querySelector(".all-tasks-button");
 const todayButton = document.querySelector(".today-button");
 const futureButton = document.querySelector(".future-button");
 const starredButton = document.querySelector(".starred-button");
 
-allTasksButton.addEventListener("click", () => {
-  if (Object.keys(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects).length === 0) return;
+function handleView(displayFn, taskFetcher) {
   const taskContainer = document.querySelector(".task-container");
   const projectHeading = taskContainer.querySelector(".project-heading");
   const listContainer = taskContainer.querySelector(".list-container");
   const addTaskButton = document.querySelector(".add-task-button");
 
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
+  if (addTaskButton) addTaskButton.style.display = "none";
+  if (projectHeading) projectHeading.style.display = "none";
 
   if (listContainer) listContainer.remove();
 
@@ -1101,76 +1138,35 @@ allTasksButton.addEventListener("click", () => {
   taskContainer.appendChild(newListContainer);
   taskContainer.setAttribute("data-current-project", "");
 
-  (0,_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayAllTasks)((0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.getAllTasks)());
+  const tasks = taskFetcher();
+  displayFn(tasks);
+
+  document.querySelector(".content-container").style.display = "block";
+}
+
+allTasksButton.addEventListener("click", () => {
+  handleView(_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayAllTasks, _logic_js__WEBPACK_IMPORTED_MODULE_0__.getAllTasks);
 });
 
 todayButton.addEventListener("click", () => {
-  if (Object.keys(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects).length === 0) return;
-  const taskContainer = document.querySelector(".task-container");
-  const projectHeading = taskContainer.querySelector(".project-heading");
-  const listContainer = taskContainer.querySelector(".list-container");
-  const addTaskButton = document.querySelector(".add-task-button");
-
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
-
-  if (listContainer) listContainer.remove();
-
-  const newListContainer = document.createElement("div");
-  newListContainer.className = "list-container";
-  const taskList = document.createElement("ul");
-  taskList.className = "task-list";
-  newListContainer.appendChild(taskList);
-  taskContainer.appendChild(newListContainer);
-  taskContainer.setAttribute("data-current-project", "");
-
-  (0,_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayTodayTasks)((0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.getTodayTasks)());
+  handleView(_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayTodayTasks, _logic_js__WEBPACK_IMPORTED_MODULE_0__.getTodayTasks);
 });
 
 futureButton.addEventListener("click", () => {
-  if (Object.keys(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects).length === 0) return;
-  const taskContainer = document.querySelector(".task-container");
-  const projectHeading = taskContainer.querySelector(".project-heading");
-  const listContainer = taskContainer.querySelector(".list-container");
-  const addTaskButton = document.querySelector(".add-task-button");
-
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
-
-  if (listContainer) listContainer.remove();
-
-  const newListContainer = document.createElement("div");
-  newListContainer.className = "list-container";
-  const taskList = document.createElement("ul");
-  taskList.className = "task-list";
-  newListContainer.appendChild(taskList);
-  taskContainer.appendChild(newListContainer);
-  taskContainer.setAttribute("data-current-project", "");
-
-  (0,_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayFutureTasks)((0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.getFutureTasks)());
+  handleView(_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayFutureTasks, _logic_js__WEBPACK_IMPORTED_MODULE_0__.getFutureTasks);
 });
 
 starredButton.addEventListener("click", () => {
-  if (Object.keys(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects).length === 0) return;
-  const taskContainer = document.querySelector(".task-container");
-  const projectHeading = taskContainer.querySelector(".project-heading");
-  const listContainer = taskContainer.querySelector(".list-container");
-  const addTaskButton = document.querySelector(".add-task-button");
+  handleView(_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayStarredTasks, _logic_js__WEBPACK_IMPORTED_MODULE_0__.getStarredTasks);
+});
 
-  addTaskButton.style.display = "none";
-  projectHeading.style.display = "none";
+window.addEventListener("DOMContentLoaded", () => {
+  (0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.loadProjects)();
+  (0,_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayAllProjectsSidebar)(_logic_js__WEBPACK_IMPORTED_MODULE_0__.projects);
 
-  if (listContainer) listContainer.remove();
-
-  const newListContainer = document.createElement("div");
-  newListContainer.className = "list-container";
-  const taskList = document.createElement("ul");
-  taskList.className = "task-list";
-  newListContainer.appendChild(taskList);
-  taskContainer.appendChild(newListContainer);
-  taskContainer.setAttribute("data-current-project", "");
-
-  (0,_display_dom_js__WEBPACK_IMPORTED_MODULE_1__.displayStarredTasks)((0,_logic_js__WEBPACK_IMPORTED_MODULE_0__.getStarredTasks)());
+  if (allTasksButton) {
+    allTasksButton.click();
+  }
 });
 
 
@@ -1192,6 +1188,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getFutureTasks: () => (/* binding */ getFutureTasks),
 /* harmony export */   getStarredTasks: () => (/* binding */ getStarredTasks),
 /* harmony export */   getTodayTasks: () => (/* binding */ getTodayTasks),
+/* harmony export */   loadProjects: () => (/* binding */ loadProjects),
 /* harmony export */   projects: () => (/* binding */ projects),
 /* harmony export */   saveProjects: () => (/* binding */ saveProjects),
 /* harmony export */   storageAvailable: () => (/* binding */ storageAvailable)
@@ -1199,91 +1196,161 @@ __webpack_require__.r(__webpack_exports__);
 let projects = {};
 
 function storageAvailable(type) {
-    let storage;
-    try {
-        storage = window[type];
-        const x = "__storage_test__";
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    } catch (e) {
-        return false;
-    }
+  let storage;
+  try {
+    storage = window[type];
+    const x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
-if (storageAvailable("localStorage")) {
-    const storedProjects = localStorage.getItem("projects");
-    projects = storedProjects ? JSON.parse(storedProjects) : {};
+function loadProjects() {
+  if (!storageAvailable("localStorage")) {
+    return;
+  }
+
+  const storedProjects = localStorage.getItem("projects");
+  if (storedProjects) {
+    try {
+      projects = JSON.parse(storedProjects);
+    } catch (e) {
+      projects = {};
+    }
+  } else {
+    projects = {};
+  }
 }
 
 function saveProjects() {
+  if (!storageAvailable("localStorage")) {
+    return;
+  }
+
+  try {
     localStorage.setItem("projects", JSON.stringify(projects));
+  } catch (e) {}
 }
 
 function createProject(projectTitle) {
-    if (projectTitle in projects) {
-        alert('Project Title already exists! Please choose another name.');
-        return false;
-    }
-    projects[projectTitle] = [];
-    saveProjects();
-    return true;
+  if (projectTitle in projects) {
+    alert("Project Title already exists! Please choose another name.");
+    return false;
+  }
+  projects[projectTitle] = [];
+  saveProjects();
+  return true;
 }
 
 function createTask(projectTitle, taskTitle, date) {
-    let taskId = crypto.randomUUID();
-    let taskObject = {
-        projectTitle: projectTitle,
-        taskTitle: taskTitle,
-        date: date,
-        starred: false,
-        isDone: false,
-        taskId: taskId,
-    }
-    projects[projectTitle].push(taskObject);
-    saveProjects();
-    return taskId;
+  let taskId = crypto.randomUUID();
+  let taskObject = {
+    projectTitle: projectTitle,
+    taskTitle: taskTitle,
+    date: date,
+    starred: false,
+    isDone: false,
+    taskId: taskId,
+  };
+
+  if (!projects[projectTitle]) {
+    projects[projectTitle] = [];
+  }
+
+  projects[projectTitle].push(taskObject);
+  saveProjects();
+  return taskId;
 }
 
 function deleteTask(projectTitle, taskId) {
-    const index = projects[projectTitle].findIndex(task => task.taskId === taskId);
-    if (index !== -1) {
+  let index = null;
+  let projectName = null;
+
+  if (!projectTitle) {
+    for (const [key, taskArray] of Object.entries(projects)) {
+      index = taskArray.findIndex((task) => task.taskId === taskId);
+      if (index !== -1) {
+        projectName = key;
+        break;
+      }
+    }
+
+    if (index !== -1 && projectName) {
+      projects[projectName].splice(index, 1);
+      saveProjects();
+    }
+  } else {
+    if (projects[projectTitle]) {
+      index = projects[projectTitle].findIndex(
+        (task) => task.taskId === taskId
+      );
+      if (index !== -1) {
         projects[projectTitle].splice(index, 1);
         saveProjects();
+      }
     }
+  }
 }
 
 function deleteProject(projectTitle) {
+  if (projects[projectTitle]) {
     delete projects[projectTitle];
     saveProjects();
+    return true;
+  }
+  return false;
 }
 
 function getAllTasks() {
-    return Object.values(projects).flat();
+  if (Object.keys(projects).length === 0) {
+    return [];
+  }
+  return Object.values(projects).flat();
 }
 
 function getCurrentDate() {
-    const currentDate = new Date();
-    return currentDate.toISOString().split("T")[0];
+  const currentDate = new Date();
+  return currentDate.toISOString().split("T")[0];
 }
 
 function getTodayTasks() {
-    let currentDate = getCurrentDate();
+  let currentDate = getCurrentDate();
 
-    let todayTasks = Object.values(projects).flat().filter(task => task.date === currentDate);
-    return todayTasks;
+  if (Object.keys(projects).length === 0) {
+    return [];
+  }
+
+  let todayTasks = Object.values(projects)
+    .flat()
+    .filter((task) => task.date === currentDate);
+  return todayTasks;
 }
 
 function getFutureTasks() {
-    let currentDate = getCurrentDate();
+  let currentDate = getCurrentDate();
 
-    let futureTasks = Object.values(projects).flat().filter(task => task.date && new Date(task.date) > new Date(currentDate));
-    return futureTasks;
+  if (Object.keys(projects).length === 0) {
+    return [];
+  }
+
+  let futureTasks = Object.values(projects)
+    .flat()
+    .filter((task) => task.date && new Date(task.date) > new Date(currentDate));
+  return futureTasks;
 }
 
-function getStarredTasks () {
-    let starredTasks = Object.values(projects).flat().filter(task => task.starred === true);
-    return starredTasks;
+function getStarredTasks() {
+  if (Object.keys(projects).length === 0) {
+    return [];
+  }
+
+  let starredTasks = Object.values(projects)
+    .flat()
+    .filter((task) => task.starred === true);
+  return starredTasks;
 }
 
 
@@ -1308,7 +1375,6 @@ projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const fd = new FormData(projectForm);
   const obj = Object.fromEntries(fd);
-  console.log(obj);
   if (!obj.title) {
     alert("Project name cannot be blank!");
     return;
