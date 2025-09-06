@@ -1,5 +1,0 @@
-{
-    "scripts": {
-        "build": "mkdir -p dist && cp src/template.html dist/index.html && cp src/styles.css dist/ && cp src/*.js dist/"
-    }
-}
