@@ -405,8 +405,6 @@ input[type="checkbox"] {
 }
 
 input {
-    width: 20px;
-    margin-left: 10px;
     border-radius: 15px;
     border-color: var(--forest-green);
     background-clip: padding-box;
@@ -463,4 +461,13 @@ input[type="date"] {
 .cancel-task-form {
     background-color: var(--red);
 }
-/* force update */
+
+input[type="text"], input[type="date"] {
+    width: 500px !important;
+    height: 50px !important;
+    margin: 0 !important;
+    font-size: 15px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box !important;
+}
