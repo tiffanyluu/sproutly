@@ -438,6 +438,7 @@ input[type="date"] {
 }
 
 .form-label {
+    margin-top: 8px;
     font-weight: bold;
     font-size: 20px;
     background-color: var(--side-bar);
