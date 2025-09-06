@@ -10,35 +10,64 @@
     padding: 0;
     background-color: var(--light-green);
     font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 .header {
     height: 60px;
-    width: 100vw;
+    width: 100%;
     border-bottom: 4px solid var(--forest-green);
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px;
     text-align: center;
-    font-size: 48px;
+    font-size: clamp(24px, 5vw, 48px);
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
     display: flex;
+    min-height: calc(100vh - 68px);
 }
 
 .sidebar-container {
-    height: 100vh;
-    /* border-right: 5px solid black; */
+    min-height: 100vh;
     background-color: var(--side-bar);
-    padding: 40px 30px;
+    padding: 20px;
     width: 100%;
     max-width: 300px;
+    flex-shrink: 0;
+}
+
+/* Fix color inheritance issues */
+.sidebar-container,
+.sidebar-container *,
+button,
+.project-title,
+.all-tasks-button,
+.today-button,
+.future-button,
+.starred-button {
+    color: black !important;
+}
+
+/* Remove default button styling */
+button, input, select, textarea {
+    color: black;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+a, a:visited, a:hover, a:active {
+    color: black;
+    text-decoration: none;
 }
 
 .projects-container {
-    margin-top: 100px;
+    margin-top: 60px;
     background-color: var(--side-bar);
 }
   
@@ -48,28 +77,39 @@
     padding-top: 30px;
     background-color: var(--light-green);
     display: none;
-    /* max-width: 255px; */
     border-radius: 10px;
 }
 
 .project-input {
-    width: 150px;
+    width: 100%;
+    max-width: 200px;
     box-sizing: border-box;
-    padding: 4px 8px;
+    padding: 8px 12px;
     font-size: 14px;
-    max-width: 100%;
+    min-height: 44px;
+    border-radius: 5px;
+    border: 2px solid var(--forest-green);
 }
 
 .project-form .form-buttons {
     background-color: var(--light-green);
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .add-project-form, .cancel-project-form {
     background-color: var(--forest-green);
-    padding: 10px 20px;
+    padding: 12px 20px;
     color: ivory;
     border-radius: 10px;
     font-size: 14px;
+    border: none;
+    cursor: pointer;
+    min-height: 44px;
+    flex: 1;
+    min-width: 80px;
 }
 
 .cancel-project-form {
@@ -77,40 +117,41 @@
 }
 
 .title {
-    font-size: 30px;
+    font-size: clamp(20px, 4vw, 30px);
     font-weight: bold;
     background-color: var(--side-bar);
+    color: black;
 }
 
 hr {
-    margin: 10px;
+    margin: 10px 0;
     height: 0px;
     border: none;
     border-top: 3px solid black;
-    margin-left: 0;
-    max-width: 330px;
+    max-width: 100%;
 }
 
 ul {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
     justify-content: flex-start;
     align-items: flex-start;
     background-color: var(--side-bar);
+    list-style: none;
 }
 
 .projects-list {
-    /* border: 2px solid black; */
     background-color: var(--side-bar);
 }
 
 .project-item {
-    /* border: 2px solid black; */
-    width: 97%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    background-color: var(--side-bar)
+    align-items: center;
+    background-color: var(--side-bar);
+    min-height: 44px;
 }
 
 button.delete-sidebar {
@@ -120,52 +161,69 @@ button.delete-sidebar {
 .trashcan-sidebar {
     background-color: var(--side-bar);
     cursor: pointer;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
 
 .trashcan-sidebar::before {
     content: "🗑️";
-    font-size: 24px;
+    font-size: 20px;
 }
 
-
 button {
-    font-size: 25px;
+    font-size: clamp(16px, 3vw, 25px);
     background-color: var(--side-bar);
     border: none;
+    cursor: pointer;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: black;
 }
 
 .content-container {
-    /* border: 4px solid red; */
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     display: none;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
 .add-task-button {
     background-color: var(--light-green);
     font-weight: bold;
-    font-size: 20px;
-    margin-left: 60px;
+    font-size: clamp(16px, 3vw, 20px);
+    margin: 20px 0;
+    padding: 12px 24px;
+    border: 2px solid var(--forest-green);
+    border-radius: 10px;
+    align-self: flex-start;
 }
 
 .task-container {
     display: flex;
     flex-direction: column;
-    /* border: 4px solid black; */
-    margin: 40px 60px;
+    margin: 20px 0;
     background-color: var(--forest-green);
+    width: 100%;
+    max-width: 800px;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 .project-heading {
-    font-size: 48px;
-    /* border: 4px solid black; */
+    font-size: clamp(24px, 5vw, 48px);
     font-weight: bold;
     padding: 20px;
     background-color: var(--forest-green);
     color: ivory;
+    text-align: center;
+    word-wrap: break-word;
 }
 
 .list-container {
@@ -173,11 +231,12 @@ button {
 }
 
 .bundle1 {
-    /* border: 2px solid black; */
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 50px;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
 }
 
 .checkbox {
@@ -188,13 +247,18 @@ button {
 }
 
 .circle {
-    font-size: 30px;
+    font-size: 24px;
     cursor: pointer;
     color: black;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .circle::before {
-    content: "◯";
+    content: "○";
     font-size: 24px;
 }
 
@@ -203,32 +267,51 @@ button {
 }
 
 .checkbox:checked + .circle::before {
-    content: "✔";
+    content: "✓";
     font-size: 24px;
 }
 
 .bundle2 {
-    /* border: 2px solid black; */
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
+    flex-shrink: 0;
 }
 
 .task-list {
     background-color: var(--light-green);
-    padding-top: 10px;
-    /* border: 2px solid black; */
+    padding: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
 .list-item {
-    /* border: 2px solid black; */
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--light-green);
+    border-radius: 8px;
+    min-height: 60px;
+    gap: 10px;
+}
+
+.text {
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-width: 0;
+    font-size: clamp(14px, 2.5vw, 18px);
+}
+
+.date {
+    font-size: clamp(12px, 2vw, 16px);
+    color: #666;
+    white-space: nowrap;
 }
 
 .list-container button {
@@ -240,29 +323,32 @@ button.delete-task {
 }
 
 .trashcan {
-    font-size: 30px;
+    font-size: 20px;
     cursor: pointer;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .trashcan::before {
     content: "🗑️";
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .add-project {
     font-weight: bold;
-    font-size: 20px;
+    font-size: clamp(16px, 3vw, 20px);
     margin-top: 30px;
-}
-
-.list-item {
-    display: flex;
-    gap: 50px;
-    font-size: 24px;
+    padding: 12px 16px;
+    border: 2px solid var(--forest-green);
+    border-radius: 10px;
+    width: 100%;
 }
 
 input[type="checkbox"] {
-    accent-color : var(--light-green); 
+    accent-color: var(--light-green); 
 }
   
 .star-checkbox {
@@ -270,13 +356,19 @@ input[type="checkbox"] {
 }
 
 .star {
-    font-size: 30px;
+    font-size: 20px;
     cursor: pointer;
     color: black;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .star::before {
     content: "\2606";
+    font-size: 20px;
 }
 
 .star-checkbox:checked + .star {
@@ -285,80 +377,183 @@ input[type="checkbox"] {
 
 .star-checkbox:checked + .star::before {
     content: "\2605";
+    font-size: 20px;
 }
 
-
 .task-form {
-    /* border: 4px solid black; */
-    padding: 40px;
-    width: max-content;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
     background-color: var(--side-bar);
-    margin-top: 50px;
+    margin: 20px 0;
     display: none;
-    margin-left: 60px;
     border-radius: 15px;
     overflow: hidden;
-    display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
 }
 
 input {
-    width: 20px;
-    margin-left: 10px;
-    border-radius: 15px;
-    border-color: var(--forest-green);
-    background-clip: padding-box;
-    transform: translateZ(0px);
+    border-radius: 8px;
+    border: 2px solid var(--forest-green);
+    background-color: white;
+    color: black;
 }
 
-input[type="text"] {
-    width: 500px;
+input[type="text"], input[type="date"] {
+    width: 100%;
     height: 50px;
     margin: 0;
     font-size: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-input[type="date"] {
-    width: 500px;
-    height: 50px;
-    margin: 0;
-    font-size: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 .form-component {
     display: flex;
     flex-direction: column;
     background-color: var(--side-bar);
+    gap: 10px;
 }
 
 .form-label {
     font-weight: bold;
-    font-size: 20px;
+    font-size: clamp(16px, 3vw, 20px);
     background-color: var(--side-bar);
     color: black;
 }
 
 .form-buttons {
     display: flex;
-    justify-content: space-evenly;
-    /* border: 4px solid black; */
+    justify-content: space-between;
     background-color: var(--side-bar);
     margin-top: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .add-task-form, .cancel-task-form {
     background-color: var(--forest-green);
-    padding: 10px 20px;
+    padding: 15px 25px;
     color: ivory;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: clamp(16px, 3vw, 20px);
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    min-width: 120px;
+    min-height: 50px;
 }
 
 .cancel-task-form {
     background-color: var(--red);
+}
+
+/* Mobile Responsive Breakpoints */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar-container {
+        max-width: 100%;
+        min-height: auto;
+        padding: 15px;
+    }
+    
+    .projects-container {
+        margin-top: 30px;
+    }
+    
+    .content-container {
+        padding: 15px;
+    }
+    
+    .task-form {
+        padding: 20px;
+        margin: 15px 0;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .add-task-form, .cancel-task-form {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .project-form .form-buttons {
+        flex-direction: column;
+    }
+    
+    .bundle1, .bundle2 {
+        gap: 10px;
+    }
+    
+    .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .bundle1 {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .bundle2 {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .text {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        height: 50px;
+        font-size: 20px;
+        padding: 5px;
+    }
+    
+    .container {
+        min-height: calc(100vh - 58px);
+    }
+    
+    .sidebar-container {
+        padding: 10px;
+    }
+    
+    .content-container {
+        padding: 10px;
+    }
+    
+    .task-form {
+        padding: 15px;
+    }
+    
+    .project-heading {
+        padding: 15px;
+        font-size: 24px;
+    }
+    
+    .list-container {
+        padding: 15px;
+    }
+    
+    ul {
+        gap: 15px;
+    }
+    
+    .circle::before, .star::before {
+        font-size: 20px;
+    }
+    
+    .trashcan::before, .trashcan-sidebar::before {
+        font-size: 18px;
+    }
 }
