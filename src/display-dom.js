@@ -190,7 +190,17 @@ function displayTaskOnMain(taskTitle, taskDate, taskId) {
 
   const date = document.createElement("div");
   date.className = "date";
-  date.textContent = taskDate;
+
+  if (taskDate) {
+    const dateObj = new Date(taskDate);
+    const options = { 
+      month: 'short', 
+      day: 'numeric'
+    };
+    date.textContent = dateObj.toLocaleDateString('en-US', options);
+  } else {
+    date.textContent = "No date";
+  }
 
   const deleteButton = document.createElement("button");
   deleteButton.className = "delete-task";
@@ -302,6 +312,43 @@ function initialDisplay() {
   }
 }
 
+// Add this right before the export statement in display-dom.js
+
+// Mobile menu functionality
+function initializeMobileMenu() {
+  // Create mobile menu toggle button
+  const toggleButton = document.createElement('button');
+  toggleButton.className = 'mobile-menu-toggle';
+  toggleButton.setAttribute('aria-label', 'Toggle menu');
+  document.body.appendChild(toggleButton);
+  
+  // Create close button inside sidebar
+  const closeButton = document.createElement('button');
+  closeButton.className = 'sidebar-close';
+  closeButton.textContent = '× Close Menu';
+  
+  const sidebar = document.querySelector('.sidebar-container');
+  sidebar.insertBefore(closeButton, sidebar.firstChild);
+  
+  toggleButton.addEventListener('click', function() {
+    sidebar.classList.add('open');
+  });
+  
+  closeButton.addEventListener('click', function() {
+    sidebar.classList.remove('open');
+  });
+  
+  // Close sidebar when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!sidebar.contains(e.target) && !toggleButton.contains(e.target)) {
+      sidebar.classList.remove('open');
+    }
+  });
+}
+
+// Call the function when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeMobileMenu);
+
 export {
   displayProjectOnMain,
   displayProjectOnSidebar,
@@ -312,4 +359,5 @@ export {
   displayStarredTasks,
   displayAllProjectsSidebar,
   initialDisplay,
+  initializeMobileMenu,
 };
